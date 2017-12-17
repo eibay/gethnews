@@ -1,18 +1,33 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import axios from 'axios'
 
 class App extends Component {
+  state = {
+    articles: []
+  }
+  
+  componentDidMount(){
+    this.fetchData()
+  }
+  
+  fetchData = () => {
+    axios.get('http://localhost:3001/articles')
+      .then(response => {
+        this.setState({articles: response.data })
+      })
+      .catch(error => {
+        console.log('Error fetching and parsing data', error);
+      });    
+  }
+  
   render() {
+    const { articles } = this.state 
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        {articles.map(article =>
+          <h2 key = {article.id}> { article.title } </h2>
+        )}
       </div>
     );
   }
