@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 import axios from 'axios'
+import Article from './article'
 
 class App extends Component {
   state = {
@@ -21,16 +22,21 @@ class App extends Component {
       });    
   }
   
+  updateArticles = (newArticles) => {
+    this.setState(state => { articles: newArticles })
+  }
+  
   render() {
     const { articles } = this.state 
     return (
-      <div className="App">
-        {articles.map(article =>
-          <h2 key = {article.id}> { article.title } </h2>
-        )}
+      <div>
+        <Article
+          articles={articles}
+          updateArticles={this.updateArticles}
+          fetchData={this.fetchData} />
       </div>
     );
   }
 }
 
-export default App;
+export default App
